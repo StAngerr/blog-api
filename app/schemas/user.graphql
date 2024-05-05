@@ -1,0 +1,39 @@
+"""
+Users of blog application. Authors of blogs and comments
+"""
+type User {
+    "The unique identifier for the user."
+    id: ID!
+
+    "User's first name"
+    firstName: String!
+
+    "User's first name"
+    lastName: String!
+
+    "Uniq username to be visible and identified by other users"
+    username: String!
+
+    "User's age"
+    age: Int!
+
+    "Origin county of user"
+    country: String!
+
+    "User's address"
+    address: String!
+
+    "User's email"
+    email: String!
+
+    "User's phone"
+    phone: String!
+
+#    "List of user's friends"
+#    friends: [User]
+}
+
+type Query {
+    users: [User!]!
+    user(id: ID!): User
+}

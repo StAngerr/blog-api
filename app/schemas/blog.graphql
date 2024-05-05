@@ -1,0 +1,29 @@
+# import Comment from './comment.graphql'
+# import User from './user.graphql'
+
+"""
+Blog type. Blogs created by users
+"""
+type Blog {
+    "The unique identifier for the blog."
+    id: ID!
+
+    "Blog header or title. Describes shortly topic of blog"
+    title: String!
+
+    "Blog text content."
+    text: String!
+
+    "Comment list for this blog left by users"
+    comments: [Comment]
+
+    "Author of the blog. User id"
+    author: User!
+}
+
+type Query {
+    "All blogs"
+    blogs: [Blog!]!
+    "Blog by ID"
+    blog(id: ID!): Blog
+}

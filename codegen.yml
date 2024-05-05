@@ -1,0 +1,8 @@
+overwrite: true
+schema: app/schemas
+generates:
+  ./types/types.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-react-apollo

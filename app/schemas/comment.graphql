@@ -1,0 +1,33 @@
+# import User from './user.graphql'
+
+"""
+Comments that users leave ander blogs
+"""
+type Comment {
+    "The unique identifier for the comment."
+    id: ID!
+    "Comment text content."
+    text: String!
+    "When comment was created."
+    date: String!
+    "User id which leave comment."
+    author: User!
+}
+
+input CreateCommentInput {
+    text: String!
+    author: ID!
+    blog: ID!
+}
+
+type Mutation {
+    "Adds a comment to particular blog"
+    addComment(input: CreateCommentInput): Comment!
+    "Deletes a comment"
+    deleteComment(id: ID!): Boolean!
+}
+
+type Query {
+    comments: [Comment!]
+}
+
