@@ -74,6 +74,14 @@ const getAllComments = async () => {
   return comments;
 };
 
+const createComment = async (comment) => {
+  return db.collection("comments").add(comment);
+};
+
+const deleteComment = async (id) => {
+  return db.collection("comments").doc(id).delete();
+};
+
 module.exports = {
   getAllBlogs,
   getBlogById,
@@ -81,4 +89,6 @@ module.exports = {
   getCommentById,
   getAllUsers,
   getAllComments,
+  createComment,
+  deleteComment,
 };
