@@ -1,5 +1,6 @@
 const blogController = require("../controllers/blogs.js");
-const { getUserById, getCommentById } = require("../services/firebaseService");
+const { getUserById, getCommentById, getAllComments} = require("../services/firebaseService");
+const {getCommentsForBlog} = require("../controllers/blogs");
 
 const blogsResolver = {
   Query: {
@@ -11,13 +12,10 @@ const blogsResolver = {
     },
   },
   Blog: {
-    comments(blog) {
-      return Promise.all(
-        blog.comments
-          .split(",")
-          .filter((i) => i)
-          .map(getCommentById),
-      );
+   async comments(blog) {
+       const blogComments = await getCommentsForBlog(blog);
+
+      return blogComments;
     },
     author(blog) {
       return getUserById(blog.author);

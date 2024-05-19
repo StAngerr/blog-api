@@ -1,7 +1,7 @@
 const { ApolloServer } = require("apollo-server");
 const { initializeApp, cert } = require("firebase-admin/app");
 const { config } = require("dotenv");
-const serviceAccount = require("../config/blog-663c5-26845f7bd192.json");
+const serviceAccount = require("../config/acc.json");
 
 config();
 

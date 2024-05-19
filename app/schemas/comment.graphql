@@ -12,17 +12,19 @@ type Comment {
     date: String!
     "User id which leave comment."
     author: User!
+    "Blog that this comment relates to"
+    blogId: String!
 }
 
 input CreateCommentInput {
     text: String!
     author: ID!
-    blog: ID!
+    blogId: ID!
 }
 
 type Mutation {
     "Adds a comment to particular blog"
-    addComment(input: CreateCommentInput): Comment!
+    addComment(input: CreateCommentInput): Comment
     "Deletes a comment"
     deleteComment(id: ID!): Boolean!
 }

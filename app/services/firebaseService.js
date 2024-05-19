@@ -75,7 +75,13 @@ const getAllComments = async () => {
 };
 
 const createComment = async (comment) => {
-  return db.collection("comments").add(comment);
+  const commentRef = await db.collection("comments").add(comment);
+  const created = await commentRef.get();
+
+  return {
+    id: created.id,
+    ...created.data()
+  };
 };
 
 const deleteComment = async (id) => {
