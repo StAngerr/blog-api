@@ -1,19 +1,28 @@
 const blogController = require("../controllers/blogs.js");
-const { getUserById, getCommentById, getAllComments} = require("../services/firebaseService");
-const {getCommentsForBlog} = require("../controllers/blogs");
+const {
+  getUserById,
+  getCommentById,
+  getAllComments,
+} = require("../services/firebaseService");
+const { getCommentsForBlog } = require("../controllers/blogs");
+const { checkRateLimit } = require("../utils/rateLimit");
 
 const blogsResolver = {
   Query: {
-    blogs() {
+    async blogs(parent, args, context, info) {
+      await checkRateLimit(parent, args, context, info);
+
       return blogController.getAllBlogs();
     },
-    blog(parent, args) {
+    async blog(parent, args, context, info) {
+      await checkRateLimit(parent, args, context, info);
+
       return blogController.getBlogById(args.id);
     },
   },
   Blog: {
-   async comments(blog) {
-       const blogComments = await getCommentsForBlog(blog);
+    async comments(blog) {
+      const blogComments = await getCommentsForBlog(blog);
 
       return blogComments;
     },

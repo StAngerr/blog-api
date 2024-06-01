@@ -6,18 +6,22 @@ const {
   createComment,
   deleteComment,
 } = require("../services/firebaseService");
+const { checkRateLimit } = require("../utils/rateLimit");
 
 const commentsResolver = {
   Query: {
-    comments() {
+    async comments(parent, args, context, info) {
+      await checkRateLimit(parent, args, context, info);
       return getAllComments();
     },
   },
   Mutation: {
-    addComment(parent, args) {
+    async addComment(parent, args, context, info) {
+      await checkRateLimit(parent, args, context, info);
       return createComment(args.input);
     },
-    deleteComment(parent, args) {
+    async deleteComment(parent, args, context, info) {
+      await checkRateLimit(parent, args, context, info);
       return deleteComment(args.id);
     },
   },

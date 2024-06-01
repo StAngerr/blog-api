@@ -1,11 +1,14 @@
 const { getAllUsers, getUserById } = require("../services/firebaseService");
+const { checkRateLimit } = require("../utils/rateLimit");
 
 const usersResolver = {
   Query: {
-    users() {
+    async users(parent, args, context, info) {
+      await checkRateLimit(parent, args, context, info);
       return getAllUsers();
     },
-    user(parent, args) {
+    async user(parent, args, context, info) {
+      await checkRateLimit(parent, args, context, info);
       return getUserById(args.id);
     },
   },
