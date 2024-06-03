@@ -1,7 +1,9 @@
-const { ApolloServer } = require("apollo-server");
+const express = require("express");
+const { ApolloServer } = require("apollo-server-express");
 const { initializeApp, cert } = require("firebase-admin/app");
 const { config } = require("dotenv");
 const serviceAccount = require("../config/acc.json");
+const cors = require("cors");
 
 config();
 
@@ -15,7 +17,7 @@ const firebaseConfig = {
   credential: cert(serviceAccount),
 };
 
-const app = initializeApp(firebaseConfig);
+initializeApp(firebaseConfig);
 
 const { blogDefs, commentsDefs, userDefs } = require("./schemas");
 const {
@@ -25,9 +27,23 @@ const {
   generalResolver,
 } = require("./resolvers");
 
+const app = express();
+
+const corsOptions = {
+  origin: "https://studio.apollographql.com",
+};
+
+app.use(cors(corsOptions));
+
 const server = new ApolloServer({
   typeDefs: [userDefs, commentsDefs, blogDefs],
   resolvers: [blogsResolver, commentsResolver, usersResolver, generalResolver],
 });
 
-server.listen().then(({ url }) => console.log(`API running. URL ${url}`));
+server.start().then((res) => {
+  server.applyMiddleware({ app });
+
+  app.listen({ port: 4000 }, () =>
+    console.log(`API running at http://localhost:4000${server.graphqlPath}`),
+  );
+});
